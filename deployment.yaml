@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-hello
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: kube-hello
+  template:
+    metadata:
+      labels:
+        app: kube-hello
+    spec:
+      containers:
+        - name: kube-hello
+          image: centkanayo10/kube-hello
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '250m'
+          ports:
+            - containerPort: 4500

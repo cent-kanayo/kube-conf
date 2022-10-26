@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-hello-nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: kube-hello-nginx
+  ports:
+    - port: 4444
+      targetPort: 4500
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-hello-nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: kube-hello-nginx
+  template:
+    metadata:
+      labels:
+        app: kube-hello-nginx
+    spec:
+      containers:
+        - name: kube-hello-nginx
+          image: centkanayo10/kube-hello-nginx
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '250m'
+          ports:
+            - containerPort: 4500
